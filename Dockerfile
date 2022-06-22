@@ -1,5 +1,12 @@
-FROM scratch
+FROM golang:alpine
 
-COPY . /go/bin/hello
+WORKDIR /app
 
-CMD ["/go/bin/hello","Code.education","Rocks"]
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
+COPY *.go ./
+RUN go build hello.go
+
+CMD [ "./hello" ]
